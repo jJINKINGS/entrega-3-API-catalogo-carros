@@ -33,7 +33,13 @@ describe("Car service retrieve unit tests", () => {
     });
 
 
-    test("Should throw an error if retrieving a car with no existing id", async() => {
+    test("Should throw an error if retrieving a car with non existing id", async() => {
+        const nonExistingId = "kkkkkkkkkkk";
+
+        await expect(retrieve(nonExistingId)).rejects.toThrow(
+            "Car not found"
+        );
+
 
     });
 })
