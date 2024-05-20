@@ -1,4 +1,5 @@
 import {prisma} from "../../prisma/database";
+import { ApiError } from "../errors/ApiError";
 import { Car, CarPayload } from "./interfaces";
 
 export const create = async(payload: CarPayload): Promise<Car> => {
@@ -17,7 +18,7 @@ export const retrieve = async(carId: string): Promise<Car> => {
     });
 
     if(!car){
-        throw new Error('Car not found');
+        throw new ApiError('Car not found', 404);
     }
 
     return car;
@@ -57,3 +58,5 @@ export const partialUpdate = async(payload: Partial<CarPayload>, carId: string) 
 
     return updatedCar;
 }
+
+//npm run test --findRelatedTests src/cars/__tests__/unit/partialUpdate.service.test.ts
