@@ -14,7 +14,7 @@ datasource db {
 }
 
 model Car {
-  id          String  @db.VarChar(36) @id @default(uuid())
+  id          String  @id @default(uuid())
   name        String  @db.VarChar(100)
   description String? @db.Text
   brand       String  @db.VarChar(100)
@@ -22,11 +22,3 @@ model Car {
   km          Int 
 }
 
-// id    String @db.VarChar(36) @id @default(uuid())
-
-// id - chave primária - uuid.
-// name - texto - obrigatório.
-// description - texto - opcional.
-// brand - texto - obrigatório.
-// year - número - obrigatório.
-// km - número - obrigatório.

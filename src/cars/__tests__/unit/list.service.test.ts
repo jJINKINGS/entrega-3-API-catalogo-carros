@@ -8,7 +8,7 @@ describe("Car service list unit tests", () => {
     });
 
     test("Should be able to list all cars", async() => {
-        //SETUP
+        
         const validTestCars = [
             {
                 name: "Car 1",

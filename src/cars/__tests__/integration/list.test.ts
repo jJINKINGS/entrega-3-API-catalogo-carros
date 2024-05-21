@@ -1,12 +1,11 @@
 import { prisma } from "../../../../prisma/database";
 import supertest from "supertest";
 import { app } from "../../../app";
+import { carCreateBodyListMock } from "../mocks/car.test";
+import { carDefaultExpects } from "../utils/carDefaultExpects";
 
 describe("Cars list integration tests", () => {
     const request = supertest(app);
-
-    const endpoint = "/cars";
-
 
     beforeEach(async() => {
         await prisma.car.deleteMany();
@@ -14,63 +13,16 @@ describe("Cars list integration tests", () => {
 
 
     test("Should be able to list all cars", async() => {
-        // const validTestCars = [
-        //     {   
-        //         name: "Car 1",
-        //         description: "Car description",
-        //         brand: "Car brand",
-        //         year: 2023,
-        //         km: 10000
-        //     },
-        //     {   
-        //         name: "Car 2",
-        //         description: "Car description",
-        //         brand: "Car brand",
-        //         year: 2023,
-        //         km: 10000
-        //     },
-        //     {   
-        //         name: "Car 3",
-        //         description: "Car description",
-        //         brand: "Car brand",
-        //         year: 2023,
-        //         km: 10000
-        //     },
-        // ];
+        await prisma.car.createMany({ data: carCreateBodyListMock });
 
-        // await prisma.car.createMany({ data: validTestCars });
+        const data = await request.get("/cars").expect(200).then(response => response.body);
 
-        const response = await request.get(endpoint);
+        expect(data).toHaveLength(2);
 
-        const expectedResponse = [
-            {
-                id: expect.any(String),
-                name: "Car 1",
-                description: "Car description",
-                brand: "Car brand",
-                year: 2023,
-                km: 10000
-            },
-            {
-                id: expect.any(String),
-                name: "Car 2",
-                description: "Car description",
-                brand: "Car brand",
-                year: 2023,
-                km: 10000
-            },
-            {
-                id: expect.any(String),
-                name: "Car 3",
-                description: "Car description",
-                brand: "Car brand",
-                year: 2023,
-                km: 10000
-            },
-        ];
+        expect(data[0].id).toBeDefined();
+        carDefaultExpects(data[0], carCreateBodyListMock[0]);
 
-
-        expect(response).toEqual(expectedResponse);
-        expect(response.status).toBe(200);
+        expect(data[1].id).toBeDefined();
+        carDefaultExpects(data[1], carCreateBodyListMock[1]);
     });
 });

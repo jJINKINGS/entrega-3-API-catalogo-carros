@@ -8,7 +8,6 @@ describe("Car service create unit tests", () => {
     });
 
     test("Should be able to create a car sucessfully", async() => {
-        //SETUP - PREPARO OS DADOS PARA REALIZAR AQUELE TEST
         const validTestCar = {
             name: "Car name",
             description: "Car description",

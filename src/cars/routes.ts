@@ -1,14 +1,13 @@
 import { Router } from "express";
-import { createController } from "./controller";
-import { bodyIsValid } from "../middleware";
-import { carPayloadSchema } from "./schemas";
+import { createController, destroyController, listController, partialUpdateController, retrieveController } from "./controller";
+import { bodyIsValid, idExists } from "../middleware";
+import { carPayloadSchema, carUpdatePayloadSchema } from "./schemas";
 
 
 export const carRouter = Router();
 
-
 carRouter.post("/", bodyIsValid(carPayloadSchema), createController);
-carRouter.get("/");
-carRouter.get("/:carId");
-carRouter.patch("/:carId");
-carRouter.delete("/:carId");
+carRouter.get("/", listController);
+carRouter.get("/:carId", idExists, retrieveController);
+carRouter.delete("/:carId", idExists, destroyController);
+carRouter.patch("/:carId", idExists, bodyIsValid(carUpdatePayloadSchema), partialUpdateController);

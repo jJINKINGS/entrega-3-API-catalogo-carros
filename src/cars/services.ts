@@ -26,30 +26,14 @@ export const retrieve = async(carId: string): Promise<Car> => {
 
 
 export const destroy = async(carId: string) => {
-    // const car = await prisma.car.findUnique({
-    //     where: {id: carId}
-    // });
-
-    // if(!car){
-    //     throw new Error('Car not found');
-    // }
-
     await retrieve(carId);
 
     await prisma.car.delete({ where: { id: carId }});
-}
+};
 
 
 export const partialUpdate = async(payload: Partial<CarPayload>, carId: string) => {
-    // const car = await prisma.car.findUnique({
-    //     where: {id: carId}
-    // });
-
-    // if(!car){
-    //     throw new Error('Car not found');
-    // }
     await retrieve(carId);
-
 
     const updatedCar = await prisma.car.update({ 
         where: {id: carId},
@@ -57,6 +41,5 @@ export const partialUpdate = async(payload: Partial<CarPayload>, carId: string) 
     });
 
     return updatedCar;
-}
+};
 
-//npm run test --findRelatedTests src/cars/__tests__/unit/partialUpdate.service.test.ts
